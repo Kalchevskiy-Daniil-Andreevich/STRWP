@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отправка почты с помощью Nodemailer</title>
+</head>
+
+<body>
+    <h1>Отправка почты с помощью Nodemailer</h1>
+    <form action="http://localhost:3000/sendmail" method="post">
+        <label for="senderEmail">Email отправителя:</label><br>
+        <input type="email" id="senderEmail" name="senderEmail" required><br><br>
+        <label for="recipientEmail">Email получателя:</label><br>
+        <input type="email" id="recipientEmail" name="recipientEmail" required><br><br>
+        <label for="message">Сообщение:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+
+</html>

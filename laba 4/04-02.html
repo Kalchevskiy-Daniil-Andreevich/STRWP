@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Interaction</title>
+</head>
+<body>
+    <h1>Server Interaction</h1>
+    <h2>Insert Data</h2>
+    <form id="insertForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="bday">Birthday:</label>
+        <input type="text" id="bday" name="bday"><br><br>
+        <button type="submit">Insert</button>
+    </form>
+
+    <h2>Update Data</h2>
+    <form id="updateForm">
+        <label for="updateId">ID to Update:</label>
+        <input type="text" id="updateId" name="id"><br><br>
+        <label for="updateName">New Name:</label>
+        <input type="text" id="updateName" name="name"><br><br>
+        <label for="updateBday">New Birthday:</label>
+        <input type="text" id="updateBday" name="bday"><br><br>
+        <button type="submit">Update</button>
+    </form>
+
+    <h2>Delete Data</h2>
+    <form id="deleteForm">
+        <label for="deleteId">ID to Delete:</label>
+        <input type="text" id="deleteId" name="id"><br><br>
+        <button type="submit">Delete</button>
+    </form>
+
+    <h2>Retrieve Data</h2>
+    <button id="retrieveBtn">Retrieve All Data</button>
+
+    <div id="result"></div>
+
+    <script>
+        const insertForm = document.getElementById('insertForm');
+        const updateForm = document.getElementById('updateForm');
+        const deleteForm = document.getElementById('deleteForm');
+        const retrieveBtn = document.getElementById('retrieveBtn');
+        const resultDiv = document.getElementById('result');
+
+        insertForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('name').value,
+                bday: document.getElementById('bday').value
+            };
+            const responseData = await sendData('/api/db', 'POST', data);
+            resultDiv.innerHTML = JSON.stringify(responseData);
+        });
+
+        updateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                id: parseInt(document.getElementById('updateId').value),
+                name: document.getElementById('updateName').value,
+                bday: document.getElementById('updateBday').value
+            };
+            const responseData = await sendData('/api/db', 'PUT', data);
+            resultDiv.innerHTML = JSON.stringify(responseData);
+        });
+
+        deleteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(deleteForm);
+            const responseData = await sendData(`/api/db?id=${formData.get('id')}`, 'DELETE');
+            resultDiv.innerHTML = JSON.stringify(responseData);
+        });
+
+        retrieveBtn.addEventListener('click', async () => {
+            const responseData = await fetchData('/api/db', 'GET');
+            resultDiv.innerHTML = JSON.stringify(responseData);
+        });
+
+        async function sendData(url, method, data) {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            return await response.json();
+        }
+
+        async function fetchData(url, method) {
+            const response = await fetch(url, {
+                method: method
+            });
+            return await response.json();
+        }
+    </script>
+</body>
+</html>

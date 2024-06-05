@@ -1,0 +1,14 @@
+{
+  "name": "m06_kda",
+  "version": "1.0.0",
+  "description": "No desc",
+  "main": "m06_KDA.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Danik",
+  "license": "ISC",
+  "dependencies": {
+    "m06_kda": "^1.0.0"
+  }
+}

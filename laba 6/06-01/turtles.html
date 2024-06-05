@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtles List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Turtles List</h1>
+    <div id="turtles-list"></div>
+    <div id="pagination"></div>
+
+    <script>
+        var turtlesPerPage = 3;
+        var currentPage = 1;
+
+        function loadTurtles(page) {
+            $.ajax({
+                url: `http://localhost:3000/api/turtles`,
+                method: 'GET',
+                success: function(response) {
+                    displayTurtles(response, page);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function displayTurtles(turtles, page) {
+            var turtlesList = $('#turtles-list');
+            turtlesList.empty();
+
+            var startIndex = (page - 1) * turtlesPerPage;
+            var endIndex = startIndex + turtlesPerPage;
+            var paginatedTurtles = turtles.slice(startIndex, endIndex);
+
+            paginatedTurtles.forEach(function(turtle) {
+                var turtleInfo = `<div><strong>Name:</strong> ${turtle.name}, <strong>Color:</strong> ${turtle.color}</div>`;
+                turtlesList.append(turtleInfo);
+            });
+
+            createPaginationButtons(Math.ceil(turtles.length / turtlesPerPage));
+        }
+
+        function createPaginationButtons(totalPages) {
+            var pagination = $('#pagination');
+            pagination.empty();
+
+            for (var i = 1; i <= totalPages; i++) {
+                var button = `<button onclick="loadTurtles(${i})">${i}</button>`;
+                pagination.append(button);
+            }
+        }
+
+        $(document).ready(function() {
+            loadTurtles(currentPage); 
+        });
+    </script>
+</body>
+</html>

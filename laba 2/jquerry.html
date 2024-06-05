@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Example</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="name-container">
+    </div>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost:5000/api/name',
+                type: 'GET',
+                success: function(data) {
+                    $('#name-container').html(`<p>Фамилия: ${data.lastName}</p>
+                                            <p>Имя: ${data.firstName}</p>
+                                            <p>Отчество: ${data.middleName}</p>`);
+                },
+                error: function() {
+                    $('#name-container').html('<p>Error fetching name</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

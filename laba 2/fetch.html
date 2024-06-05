@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLHttpRequest</title>
+</head>
+<body>
+    <div id="name-container"></div>
+    <script>
+        fetch('http://localhost:5000/api/name')
+            .then(response => response.json())
+            .then(data => {
+                const nameContainer = document.getElementById('name-container');
+                nameContainer.innerHTML = '<p>Фамилия: ' + data.lastName + '</p>' +
+                                            '<p>Имя: ' + data.firstName + '</p>' +
+                                            '<p>Отчество: ' + data.middleName + '</p>';
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
